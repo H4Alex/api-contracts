@@ -19,6 +19,14 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: '@h4alex'
       - run: npm ci
+
+      # Alinha package.json.version com o tag que disparou este run.
+      # Evita E409 "Cannot publish over existing version" quando o
+      # package.json ficou em uma versão antiga enquanto a tag avançou
+      # (ex.: tag v1.0.4 disparado, mas package.json ainda em "1.0.0").
+      - name: Sync package.json version to tag
+        run: npm version --no-git-tag-version --allow-same-version "${GITHUB_REF_NAME#v}"
+
       - run: npm run build
       - run: npm publish
         env:
