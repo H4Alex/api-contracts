@@ -1,71 +1,56 @@
 /**
  * Entity schemas. Initial release uses permissive shapes (passthrough) — only
- * key identifiers and status fields are required. Strict shapes are tracked
- * in the project board. Bump minor version as each schema is hardened.
+ * key identifiers are required and most fields accept any string to avoid
+ * false-negative validations while the canonical enum values are collected
+ * from real API responses. Harden incrementally in follow-up minor bumps.
  */
 import { z } from 'zod';
 import { isoTimestampSchema } from './common.js';
-import {
-  assinaturaCicloEnum,
-  assinaturaStatusEnum,
-  campanhaStatusEnum,
-  contestacaoStatusEnum,
-  contestacaoTipoEnum,
-  faturaStatusEnum,
-  nivelRelatorioEnum,
-  nivelSuporteEnum,
-  perfilEmpresaEnum,
-  perfilUsuarioInternoEnum,
-  statusCashbackEnum,
-  statusVendaEnum,
-  tipoGlobalEnum,
-  unidadeStatusEnum,
-} from './enums.js';
 
 // ─── Empresa & Usuários ──────────────────────────────────
 
 export const empresaRefSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string(),
+    nome: z.string().optional(),
     slug: z.string().optional(),
-    perfil: perfilEmpresaEnum.optional(),
+    perfil: z.string().optional(),
   })
   .passthrough();
 
 export const empresaSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string(),
+    nome: z.string().optional(),
     cnpj: z.string().optional(),
-    status: unidadeStatusEnum.optional(),
+    status: z.string().optional(),
     created_at: isoTimestampSchema.optional(),
   })
   .passthrough();
 
 export const usuarioSchema = z
   .object({
-    id: z.number().int().or(z.string()),
+    id: z.number().int().or(z.string()).optional(),
     nome: z.string().optional(),
     email: z.string().email().optional(),
-    tipo_global: tipoGlobalEnum.optional(),
+    tipo_global: z.string().optional(),
   })
   .passthrough();
 
 export const usuarioInternoSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string(),
-    email: z.string().email(),
-    perfil: perfilUsuarioInternoEnum,
+    nome: z.string().optional(),
+    email: z.string().email().optional(),
+    perfil: z.string().optional(),
   })
   .passthrough();
 
 export const unidadeNegocioSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string(),
-    status: unidadeStatusEnum.optional(),
+    nome: z.string().optional(),
+    status: z.string().optional(),
   })
   .passthrough();
 
@@ -83,8 +68,8 @@ export const clienteSchema = z
 
 export const clienteSaldoSchema = z
   .object({
-    cliente_id: z.number().int().or(z.string()),
-    saldo_disponivel: z.number(),
+    cliente_id: z.number().int().or(z.string()).optional(),
+    saldo_disponivel: z.number().optional(),
     saldo_bloqueado: z.number().optional(),
     saldo_pendente: z.number().optional(),
   })
@@ -95,8 +80,8 @@ export const clienteSaldoSchema = z
 export const campanhaSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string(),
-    status: campanhaStatusEnum,
+    nome: z.string().optional(),
+    status: z.string().optional(),
     percentual_cashback: z.number().optional(),
     inicio: isoTimestampSchema.nullable().optional(),
     fim: isoTimestampSchema.nullable().optional(),
@@ -109,8 +94,8 @@ export const transacaoBaseSchema = z
   .object({
     id: z.number().int().or(z.string()),
     cliente_id: z.number().int().or(z.string()).optional(),
-    valor: z.number(),
-    status: statusCashbackEnum.or(statusVendaEnum).optional(),
+    valor: z.number().optional(),
+    status: z.string().optional(),
     created_at: isoTimestampSchema.optional(),
   })
   .passthrough();
@@ -122,20 +107,20 @@ export const transacaoSchema = transacaoBaseSchema;
 export const planoSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string(),
-    ciclo: assinaturaCicloEnum.optional(),
+    nome: z.string().optional(),
+    ciclo: z.string().optional(),
     preco: z.number().optional(),
-    nivel_relatorio: nivelRelatorioEnum.optional(),
-    nivel_suporte: nivelSuporteEnum.optional(),
+    nivel_relatorio: z.string().optional(),
+    nivel_suporte: z.string().optional(),
   })
   .passthrough();
 
 export const assinaturaSchema = z
   .object({
-    id: z.number().int().or(z.string()),
+    id: z.number().int().or(z.string()).optional(),
     plano_id: z.number().int().or(z.string()).optional(),
-    status: assinaturaStatusEnum,
-    ciclo: assinaturaCicloEnum.optional(),
+    status: z.string().optional(),
+    ciclo: z.string().optional(),
     started_at: isoTimestampSchema.optional(),
     expires_at: isoTimestampSchema.nullable().optional(),
   })
@@ -144,9 +129,9 @@ export const assinaturaSchema = z
 export const faturaSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    valor: z.number(),
-    status: faturaStatusEnum,
-    vencimento: isoTimestampSchema,
+    valor: z.number().optional(),
+    status: z.string().optional(),
+    vencimento: isoTimestampSchema.optional(),
     pago_em: isoTimestampSchema.nullable().optional(),
   })
   .passthrough();
@@ -156,8 +141,8 @@ export const faturaSchema = z
 export const contestacaoSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    tipo: contestacaoTipoEnum,
-    status: contestacaoStatusEnum,
+    tipo: z.string().optional(),
+    status: z.string().optional(),
     descricao: z.string().optional(),
     created_at: isoTimestampSchema.optional(),
   })
@@ -176,9 +161,9 @@ export const logAuditoriaSchema = z
   .object({
     id: z.number().int().or(z.string()),
     usuario_id: z.number().int().or(z.string()).optional(),
-    acao: z.string(),
+    acao: z.string().optional(),
     entidade: z.string().optional(),
-    created_at: isoTimestampSchema,
+    created_at: isoTimestampSchema.optional(),
   })
   .passthrough();
 
@@ -195,9 +180,9 @@ export const chartDataPointSchema = z
 
 export const topClienteSchema = z
   .object({
-    cliente_id: z.number().int().or(z.string()),
+    cliente_id: z.number().int().or(z.string()).optional(),
     nome: z.string().optional(),
-    total: z.number(),
+    total: z.number().optional(),
   })
   .passthrough();
 
