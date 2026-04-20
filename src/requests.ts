@@ -25,43 +25,43 @@ export const registerRequestSchema = z
   .passthrough();
 
 export const registerResponseSchema = z.object({
-  user: usuarioSchema,
+  user: usuarioSchema.nullish(),
   token: z.string().nullish(),
 }).passthrough();
 
 export const loginSingleEmpresaResponseSchema = z
   .object({
-    user: usuarioSchema,
-    empresa: empresaRefSchema,
-    token: z.string(),
+    user: usuarioSchema.nullish(),
+    empresa: empresaRefSchema.nullish(),
+    token: z.string().nullish(),
     refresh_token: z.string().nullish(),
   })
   .passthrough();
 
 export const loginMultiEmpresaResponseSchema = z
   .object({
-    user: usuarioSchema,
-    empresas: z.array(empresaRefSchema),
+    user: usuarioSchema.nullish(),
+    empresas: z.array(empresaRefSchema).nullish(),
     intermediate_token: z.string().nullish(),
   })
   .passthrough();
 
 export const loginAdminResponseSchema = z
   .object({
-    user: usuarioSchema,
-    token: z.string(),
+    user: usuarioSchema.nullish(),
+    token: z.string().nullish(),
   })
   .passthrough();
 
 export const meResponseSchema = z
   .object({
-    user: usuarioSchema,
+    user: usuarioSchema.nullish(),
     empresa: empresaRefSchema.nullish(),
   })
   .passthrough();
 
 export const refreshTokenResponseSchema = z.object({
-  token: z.string(),
+  token: z.string().nullish(),
   refresh_token: z.string().nullish(),
 }).passthrough();
 
