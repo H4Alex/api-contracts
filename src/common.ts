@@ -13,8 +13,8 @@ export const monetarioSchema = z.number().nonnegative();
 
 export const hypermediaLinkSchema = z.object({
   href: z.string(),
-  method: z.string().optional(),
-  rel: z.string().optional(),
+  method: z.string().nullish(),
+  rel: z.string().nullish(),
 });
 
 export const hypermediaLinksSchema = z.record(z.string(), hypermediaLinkSchema);
@@ -26,21 +26,21 @@ export const paginationMetaSchema = z.object({
   last_page: z.number().int().nonnegative(),
   per_page: z.number().int().positive(),
   total: z.number().int().nonnegative(),
-  from: z.number().int().nullable().optional(),
-  to: z.number().int().nullable().optional(),
+  from: z.number().int().nullable().nullish(),
+  to: z.number().int().nullable().nullish(),
 });
 
 export const cursorPaginationMetaSchema = z.object({
-  next_cursor: z.string().nullable().optional(),
-  prev_cursor: z.string().nullable().optional(),
+  next_cursor: z.string().nullable().nullish(),
+  prev_cursor: z.string().nullable().nullish(),
   per_page: z.number().int().positive(),
 });
 
 export const paginationLinksSchema = z.object({
-  first: z.string().nullable().optional(),
-  last: z.string().nullable().optional(),
-  prev: z.string().nullable().optional(),
-  next: z.string().nullable().optional(),
+  first: z.string().nullable().nullish(),
+  last: z.string().nullable().nullish(),
+  prev: z.string().nullable().nullish(),
+  next: z.string().nullable().nullish(),
 });
 
 // ─── Errors ──────────────────────────────────────────────
@@ -48,14 +48,14 @@ export const paginationLinksSchema = z.object({
 export const apiErrorDetailSchema = z.object({
   code: z.string(),
   message: z.string(),
-  field: z.string().optional(),
+  field: z.string().nullish(),
 });
 
 export const apiErrorResponseSchema = z.object({
   status: z.literal(false),
-  data: z.null().optional(),
+  data: z.null().nullish(),
   error: apiErrorDetailSchema.or(z.string()).or(z.record(z.string(), z.unknown())),
-  message: z.string().optional(),
+  message: z.string().nullish(),
 });
 
 export const laravelValidationErrorSchema = z.object({
@@ -69,8 +69,8 @@ export const apiResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
   z.object({
     status: z.literal(true),
     data: dataSchema,
-    error: z.null().optional(),
-    message: z.string().optional(),
+    error: z.null().nullish(),
+    message: z.string().nullish(),
   });
 
 export const paginatedResponseSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
@@ -78,24 +78,24 @@ export const paginatedResponseSchema = <T extends z.ZodTypeAny>(itemSchema: T) =
     status: z.literal(true),
     data: z.array(itemSchema),
     pagination: paginationMetaSchema,
-    links: paginationLinksSchema.optional(),
-    message: z.string().optional(),
+    links: paginationLinksSchema.nullish(),
+    message: z.string().nullish(),
   });
 
 export const deleteSuccessResponseSchema = z.object({
   status: z.literal(true),
-  data: z.null().optional(),
-  message: z.string().optional(),
+  data: z.null().nullish(),
+  message: z.string().nullish(),
 });
 
 // ─── Requests ────────────────────────────────────────────
 
 export const listRequestSchema = z.object({
-  page: z.number().int().positive().optional(),
-  per_page: z.number().int().positive().optional(),
-  sort: z.string().optional(),
-  order: z.enum(['asc', 'desc']).optional(),
-  search: z.string().optional(),
+  page: z.number().int().positive().nullish(),
+  per_page: z.number().int().positive().nullish(),
+  sort: z.string().nullish(),
+  order: z.enum(['asc', 'desc']).nullish(),
+  search: z.string().nullish(),
 });
 
 export const verifyResetTokenRequestSchema = z.object({
@@ -105,7 +105,7 @@ export const verifyResetTokenRequestSchema = z.object({
 
 export const verifyResetTokenResponseSchema = z.object({
   valid: z.boolean(),
-  message: z.string().optional(),
+  message: z.string().nullish(),
 });
 
 // ─── Inferred types ──────────────────────────────────────

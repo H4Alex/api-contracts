@@ -26,7 +26,7 @@ export const registerRequestSchema = z
 
 export const registerResponseSchema = z.object({
   user: usuarioSchema,
-  token: z.string().optional(),
+  token: z.string().nullish(),
 }).passthrough();
 
 export const loginSingleEmpresaResponseSchema = z
@@ -34,7 +34,7 @@ export const loginSingleEmpresaResponseSchema = z
     user: usuarioSchema,
     empresa: empresaRefSchema,
     token: z.string(),
-    refresh_token: z.string().optional(),
+    refresh_token: z.string().nullish(),
   })
   .passthrough();
 
@@ -42,7 +42,7 @@ export const loginMultiEmpresaResponseSchema = z
   .object({
     user: usuarioSchema,
     empresas: z.array(empresaRefSchema),
-    intermediate_token: z.string().optional(),
+    intermediate_token: z.string().nullish(),
   })
   .passthrough();
 
@@ -56,13 +56,13 @@ export const loginAdminResponseSchema = z
 export const meResponseSchema = z
   .object({
     user: usuarioSchema,
-    empresa: empresaRefSchema.optional(),
+    empresa: empresaRefSchema.nullish(),
   })
   .passthrough();
 
 export const refreshTokenResponseSchema = z.object({
   token: z.string(),
-  refresh_token: z.string().optional(),
+  refresh_token: z.string().nullish(),
 }).passthrough();
 
 export const switchEmpresaRequestSchema = z.object({
@@ -86,8 +86,8 @@ export const resetPasswordRequestSchema = z.object({
 
 export const twoFactorSetupResponseSchema = z.object({
   secret: z.string(),
-  qr_code_url: z.string().optional(),
-  otpauth_url: z.string().optional(),
+  qr_code_url: z.string().nullish(),
+  otpauth_url: z.string().nullish(),
 }).passthrough();
 
 export const twoFactorConfirmRequestSchema = z.object({
@@ -96,7 +96,7 @@ export const twoFactorConfirmRequestSchema = z.object({
 
 export const twoFactorConfirmResponseSchema = z.object({
   enabled: z.boolean(),
-  backup_codes: z.array(z.string()).optional(),
+  backup_codes: z.array(z.string()).nullish(),
 }).passthrough();
 
 export const twoFactorVerifyRequestSchema = z.object({
@@ -105,7 +105,7 @@ export const twoFactorVerifyRequestSchema = z.object({
 
 export const twoFactorVerifyResponseSchema = z.object({
   verified: z.boolean(),
-  token: z.string().optional(),
+  token: z.string().nullish(),
 }).passthrough();
 
 export const twoFactorBackupCodesResponseSchema = z.object({

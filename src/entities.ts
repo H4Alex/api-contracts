@@ -12,45 +12,45 @@ import { isoTimestampSchema } from './common.js';
 export const empresaRefSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string().optional(),
-    slug: z.string().optional(),
-    perfil: z.string().optional(),
+    nome: z.string().nullish(),
+    slug: z.string().nullish(),
+    perfil: z.string().nullish(),
   })
   .passthrough();
 
 export const empresaSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string().optional(),
-    cnpj: z.string().optional(),
-    status: z.string().optional(),
-    created_at: isoTimestampSchema.optional(),
+    nome: z.string().nullish(),
+    cnpj: z.string().nullish(),
+    status: z.string().nullish(),
+    created_at: isoTimestampSchema.nullish(),
   })
   .passthrough();
 
 export const usuarioSchema = z
   .object({
-    id: z.number().int().or(z.string()).optional(),
-    nome: z.string().optional(),
-    email: z.string().email().optional(),
-    tipo_global: z.string().optional(),
+    id: z.number().int().or(z.string()).nullish(),
+    nome: z.string().nullish(),
+    email: z.string().email().nullish(),
+    tipo_global: z.string().nullish(),
   })
   .passthrough();
 
 export const usuarioInternoSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string().optional(),
-    email: z.string().email().optional(),
-    perfil: z.string().optional(),
+    nome: z.string().nullish(),
+    email: z.string().email().nullish(),
+    perfil: z.string().nullish(),
   })
   .passthrough();
 
 export const unidadeNegocioSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string().optional(),
-    status: z.string().optional(),
+    nome: z.string().nullish(),
+    status: z.string().nullish(),
   })
   .passthrough();
 
@@ -59,19 +59,19 @@ export const unidadeNegocioSchema = z
 export const clienteSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string().optional(),
-    cpf: z.string().optional(),
-    email: z.string().email().optional(),
-    telefone: z.string().optional(),
+    nome: z.string().nullish(),
+    cpf: z.string().nullish(),
+    email: z.string().email().nullish(),
+    telefone: z.string().nullish(),
   })
   .passthrough();
 
 export const clienteSaldoSchema = z
   .object({
-    cliente_id: z.number().int().or(z.string()).optional(),
-    saldo_disponivel: z.number().optional(),
-    saldo_bloqueado: z.number().optional(),
-    saldo_pendente: z.number().optional(),
+    cliente_id: z.number().int().or(z.string()).nullish(),
+    saldo_disponivel: z.number().nullish(),
+    saldo_bloqueado: z.number().nullish(),
+    saldo_pendente: z.number().nullish(),
   })
   .passthrough();
 
@@ -80,11 +80,11 @@ export const clienteSaldoSchema = z
 export const campanhaSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string().optional(),
-    status: z.string().optional(),
-    percentual_cashback: z.number().optional(),
-    inicio: isoTimestampSchema.nullable().optional(),
-    fim: isoTimestampSchema.nullable().optional(),
+    nome: z.string().nullish(),
+    status: z.string().nullish(),
+    percentual_cashback: z.number().nullish(),
+    inicio: isoTimestampSchema.nullable().nullish(),
+    fim: isoTimestampSchema.nullable().nullish(),
   })
   .passthrough();
 
@@ -93,10 +93,10 @@ export const campanhaSchema = z
 export const transacaoBaseSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    cliente_id: z.number().int().or(z.string()).optional(),
-    valor: z.number().optional(),
-    status: z.string().optional(),
-    created_at: isoTimestampSchema.optional(),
+    cliente_id: z.number().int().or(z.string()).nullish(),
+    valor: z.number().nullish(),
+    status: z.string().nullish(),
+    created_at: isoTimestampSchema.nullish(),
   })
   .passthrough();
 
@@ -107,32 +107,32 @@ export const transacaoSchema = transacaoBaseSchema;
 export const planoSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    nome: z.string().optional(),
-    ciclo: z.string().optional(),
-    preco: z.number().optional(),
-    nivel_relatorio: z.string().optional(),
-    nivel_suporte: z.string().optional(),
+    nome: z.string().nullish(),
+    ciclo: z.string().nullish(),
+    preco: z.number().nullish(),
+    nivel_relatorio: z.string().nullish(),
+    nivel_suporte: z.string().nullish(),
   })
   .passthrough();
 
 export const assinaturaSchema = z
   .object({
-    id: z.number().int().or(z.string()).optional(),
-    plano_id: z.number().int().or(z.string()).optional(),
-    status: z.string().optional(),
-    ciclo: z.string().optional(),
-    started_at: isoTimestampSchema.optional(),
-    expires_at: isoTimestampSchema.nullable().optional(),
+    id: z.number().int().or(z.string()).nullish(),
+    plano_id: z.number().int().or(z.string()).nullish(),
+    status: z.string().nullish(),
+    ciclo: z.string().nullish(),
+    started_at: isoTimestampSchema.nullish(),
+    expires_at: isoTimestampSchema.nullable().nullish(),
   })
   .passthrough();
 
 export const faturaSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    valor: z.number().optional(),
-    status: z.string().optional(),
-    vencimento: isoTimestampSchema.optional(),
-    pago_em: isoTimestampSchema.nullable().optional(),
+    valor: z.number().nullish(),
+    status: z.string().nullish(),
+    vencimento: isoTimestampSchema.nullish(),
+    pago_em: isoTimestampSchema.nullable().nullish(),
   })
   .passthrough();
 
@@ -141,10 +141,10 @@ export const faturaSchema = z
 export const contestacaoSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    tipo: z.string().optional(),
-    status: z.string().optional(),
-    descricao: z.string().optional(),
-    created_at: isoTimestampSchema.optional(),
+    tipo: z.string().nullish(),
+    status: z.string().nullish(),
+    descricao: z.string().nullish(),
+    created_at: isoTimestampSchema.nullish(),
   })
   .passthrough();
 
@@ -160,10 +160,10 @@ export const notificacaoConfigFormSchema = z.object({}).passthrough();
 export const logAuditoriaSchema = z
   .object({
     id: z.number().int().or(z.string()),
-    usuario_id: z.number().int().or(z.string()).optional(),
-    acao: z.string().optional(),
-    entidade: z.string().optional(),
-    created_at: isoTimestampSchema.optional(),
+    usuario_id: z.number().int().or(z.string()).nullish(),
+    acao: z.string().nullish(),
+    entidade: z.string().nullish(),
+    created_at: isoTimestampSchema.nullish(),
   })
   .passthrough();
 
@@ -180,9 +180,9 @@ export const chartDataPointSchema = z
 
 export const topClienteSchema = z
   .object({
-    cliente_id: z.number().int().or(z.string()).optional(),
-    nome: z.string().optional(),
-    total: z.number().optional(),
+    cliente_id: z.number().int().or(z.string()).nullish(),
+    nome: z.string().nullish(),
+    total: z.number().nullish(),
   })
   .passthrough();
 
